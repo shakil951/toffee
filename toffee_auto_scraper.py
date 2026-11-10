@@ -66,3 +66,50 @@ def discover_all_channels():
                             }
                         for k, v in obj.items():
                             extract_channel_objects(v)
+                    elif isinstance(obj, list):
+                        for item in obj:
+                            extract_channel_objects(item)
+
+                extract_channel_objects(page_props)
+
+        except Exception as e:
+            print(f"[!] Error scanning {url}: {e}")
+
+    return list(discovered_channels.values())
+
+def get_channel_stream(channel_id):
+    playback_url = f"{PLAYBACK_BASE}/{channel_id}"
+    payload = {
+        "device_id": DEVICE_ID,
+        "subscriber_id": SUBSCRIBER_ID,
+        "subscriber_type": "REGISTERED",
+        "msisdn": MSISDN
+    }
+
+    try:
+        res = session.post(playback_url, json=payload, timeout=10)
+        if res.status_code == 200:
+            data = res.json()
+            stream_url = data.get("stream_url") or data.get("url") or data.get("playback_url")
+            
+            cookies_dict = session.cookies.get_dict()
+            cookie_header = "; ".join([f"{k}={v}" for k, v in cookies_dict.items()])
+            
+            return stream_url, cookie_header
+    except Exception:
+        pass
+    return None, None
+
+def main():
+    channels = discover_all_channels()
+    total = len(channels)
+    print(f"[*] Total channels discovered automatically: {total}")
+
+    output_result = {
+        "updated_at": datetime.utcnow().isoformat() + "Z",
+        "total_channels": 0,
+        "channels": []
+    }
+
+    for idx, ch in enumerate(channels, start=1):
+        ch
