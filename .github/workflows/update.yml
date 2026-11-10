@@ -1,0 +1,5 @@
+- name: Run Scraper
+  env:
+    TOFFEE_AUTH_TOKEN: ${{ secrets.TOFFEE_AUTH_TOKEN }}
+    TOFFEE_COOKIES: ${{ secrets.TOFFEE_COOKIES }}
+  run: python toffee_account_scraper.py
