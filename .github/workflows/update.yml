@@ -1,37 +1,34 @@
-name: Auto Update Toffee Channels
+name: Update Toffee Playlist
 
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '0 */6 * * *' # প্রতি ৬ ঘণ্টা পর পর অটোমেটিক রান হবে
   workflow_dispatch:
 
 jobs:
-  scrape-and-update:
+  update-data:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
-        run: |
-          pip install requests
+      - name: Install dependencies
+        run: pip install requests
 
-      - name: Run Auto Scraper
-        run: |
-          python toffee_auto_scraper.py
+      - name: Run scraper script
+        run: python toffee_auto_scraper.py
 
-      - name: Commit and Push Updated Data
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --staged --quiet || (git commit -m "Auto-update Toffee channel streams [skip ci]" && git push)
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add toffee_channels.json toffee_channels.m3u
+          git commit -m "Auto-update Toffee 70+ channels and M3U playlist [skip ci]" || exit 0
+          git push
