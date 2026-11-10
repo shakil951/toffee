@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Auto Scraper
         run: |
-          toffee_auto_scraper.py
+          python toffee_auto_scraper.py
 
       - name: Commit and Push Updated Data
         run: |
