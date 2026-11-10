@@ -2,7 +2,7 @@ name: Update Toffee Playlist
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # প্রতি ৬ ঘণ্টা পর পর অটোমেটিক রান হবে
+    - cron: '0 */1 * * *' # প্রতি ৬ ঘণ্টা পর পর অটোমেটিক রান হবে
   workflow_dispatch:
 
 jobs:
