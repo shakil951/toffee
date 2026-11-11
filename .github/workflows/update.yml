@@ -3,7 +3,7 @@ name: Auto Generate Toffee Playlist
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */1 * * *' # প্রতি ১ ঘণ্টা পর পর অটোমেটিক আপডেট হবে
+    - cron: '0 * * * *'  # এই কোডটির মানে হলো প্রতি ১ ঘণ্টা পরপর (Minute 0 of every hour) রান করবে
 
 permissions:
   contents: write
