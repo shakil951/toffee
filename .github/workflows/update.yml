@@ -1,9 +1,9 @@
-name: Auto Generate Toffee Playlist
+name: Toffee Playlist Auto Updater
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 * * * *'  # এই কোডটির মানে হলো প্রতি ১ ঘণ্টা পরপর (Minute 0 of every hour) রান করবে
+    - cron: '0 * * * *'  # প্রতি ১ ঘণ্টা পরপর (প্রতি ঘণ্টার ০ মিনিটে) রান করবে
 
 permissions:
   contents: write
@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Main Repository
+      - name: Checkout Public Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Checkout Private Script Repository
+      - name: Checkout Private Repository
         uses: actions/checkout@v4
         with:
           repository: shakil951/toffee-pvt-code
@@ -43,8 +43,7 @@ jobs:
       - name: Run Toffee Extractor Script
         env:
           BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
-        run: |
-          python toffee_auto_scraper.py || echo "Script failed, but workflow won't crash instantly"
+        run: python toffee_auto_scraper.py
 
       - name: Remove Python Script
         run: rm -f toffee_auto_scraper.py
