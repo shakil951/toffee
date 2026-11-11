@@ -2,8 +2,6 @@ name: Toffee Playlist Auto Updater
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 * * * *'  # প্রতি ১ ঘণ্টা পরপর (প্রতি ঘণ্টার ০ মিনিটে) রান করবে
 
 permissions:
   contents: write
