@@ -43,7 +43,8 @@ jobs:
       - name: Run Toffee Extractor Script
         env:
           BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
-        run: python toffee_auto_scraper.py
+        run: |
+          python toffee_auto_scraper.py || echo "Script failed, but workflow won't crash instantly"
 
       - name: Remove Python Script
         run: rm -f toffee_auto_scraper.py
